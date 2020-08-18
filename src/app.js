@@ -41,11 +41,11 @@ app.post("/repositories", (request, response) => {
 
 app.put("/repositories/:id", idRepositoryFinder, (request, response) => {
   const {id} = request.params
-  const {title, url, techs, likes} = request.body
+  const {title, url, techs} = request.body
   const repositoryIndex = repositories.findIndex(repository => repository.id === id)
-  const RepositoryLikes = likes ? repositories[repositoryIndex].likes : undefined
+  const likes = repositories[repositoryIndex].likes
 
-  const repository = {id, title, url, techs, likes:RepositoryLikes}
+  const repository = {id, title, url, techs, likes}
   
   repositories[repositoryIndex] = repository
 
@@ -65,7 +65,7 @@ app.delete("/repositories/:id", idRepositoryFinder, (request, response) => {
 app.post("/repositories/:id/like", idRepositoryFinder, (request, response) => {
   const {id} = request.params
   const repositoryIndex = repositories.findIndex(repository => repository.id === id)
-  repositories[repositoryIndex].likes = repositories[repositoryIndex].likes+1
+  repositories[repositoryIndex].likes +=1
   return response.json({likes:repositories[repositoryIndex].likes})
 });
 
